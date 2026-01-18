@@ -1,6 +1,9 @@
 #Easy and Simple Port Scanner 
 import socket 
 import time 
+from tqdm import tqdm as t
+import time 
+
 
 
 
@@ -12,17 +15,18 @@ start = time.time()
 
 open_ports = []
 
-print(f'\nscanning the {target} port...\n')
+print(f'\nscanning {target} port...\n')
 
-for port in range(1, 100):
-    print(port)
+for port in t(range(1, 1025), desc="Scanning Ports", colour="yellow", ncols=100):
+    time.sleep(0.02)
+    #print(port)
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.settimeout(0.5)
+    s.settimeout(0.02)
 
     result = s.connect_ex((target, port))
 
     if result == 0:
-        print(f'[OPEN] port {port}')
+        t.write(f'[OPEN] port {port}')
         open_ports.append(port)
     s.close()
 
